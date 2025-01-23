@@ -87,7 +87,7 @@ if (isset($_GET['q'])) {
     $metodo_pago = $_GET['metodo_pago'];
     $consulta = mysqli_query($conexion, "SELECT SUM(total) AS total_pagar FROM detalle_temp WHERE id_usuario = $id_user");
     $result = mysqli_fetch_assoc($consulta);
-    $total = $result['total_pagar'];
+    $total = $result['total_pagar'] + ($result['total_pagar'] * 0.16);
     $insertar = mysqli_query($conexion, "INSERT INTO ventas(id_cliente, total, id_usuario, metodo_pago) VALUES ($id_cliente, '$total', $id_user, '$metodo_pago')");
     if ($insertar) {
         $id_maximo = mysqli_query($conexion, "SELECT MAX(id) AS total FROM ventas");
@@ -98,7 +98,7 @@ if (isset($_GET['q'])) {
             $id_producto = $row['id_producto'];
             $cantidad = $row['cantidad'];
             $precio = $row['precio_venta'];
-            $total = $row['total'];
+            $total = $row['total'] + ($row['total'] * 0.16);
             $insertarDet = mysqli_query($conexion, "INSERT INTO detalle_venta (id_producto, id_venta, cantidad, precio, total, metodo_pago) VALUES ($id_producto, $ultimoId, $cantidad, '$precio', '$total', '$metodo_pago')");
             $stockActual = mysqli_query($conexion, "SELECT * FROM producto WHERE codproducto = $id_producto");
             $stockNuevo = mysqli_fetch_assoc($stockActual);

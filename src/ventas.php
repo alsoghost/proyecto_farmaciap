@@ -124,7 +124,11 @@ include_once "includes/header.php";
                 </tbody>
                 <tfoot>
                     <tr class="font-weight-bold">
-                        <td>Total Pagar</td>
+                        <td id="totalAPagar">IVA</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total a pagar</td>
                         <td></td>
                     </tr>
                 </tfoot>
