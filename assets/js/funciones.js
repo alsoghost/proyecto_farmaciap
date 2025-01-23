@@ -130,7 +130,7 @@ function calcularPrecio(e) {
   const total = cant * precio;
   const existencia = $('#existencia').val();
   const cantidad_elegida = $('#cantidad_elegida').val();
-  $('#sub_total').val(total);
+  $('#sub_total').val(total.toFixed(2));
   if (cant > 0 && cant != '') {
     console.log(existencia - cantidad_elegida);
     if (existencia && existencia - cantidad_elegida >= cant) {
@@ -292,15 +292,13 @@ function calcular() {
   // obtenemos todas las filas del tbody
   var filas = document.querySelectorAll('#tblDetalle tbody tr');
 
-  var total = 0;
-
+  var subtotal = 0;
   // recorremos cada una de las filas
   filas.forEach(function (e) {
     // obtenemos las columnas de cada fila
     var columnas = e.querySelectorAll('td');
-
     // obtenemos los valores de la cantidad y importe
-    var importe = parseFloat(columnas[6].textContent);
+    var importe = parseFloat(columnas[4].textContent); // Cambiar el índice a 4 para obtener el sub_total
 
     subtotal += importe;
   });
@@ -309,7 +307,8 @@ function calcular() {
   var total = subtotal + iva;
   // mostramos la suma total
   var filas = document.querySelectorAll('#tblDetalle tfoot tr td');
-  filas[1].textContent = total.toFixed(2);
+  filas[1].textContent = iva.toFixed(2);
+  filas[3].textContent = total.toFixed(2);
 }
 
 function generarPDF(cliente, id_venta, metodo) {

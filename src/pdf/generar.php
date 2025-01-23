@@ -62,11 +62,12 @@ $pdf->Cell(17, 5, 'Sub Total', 1, 1, 'C');
 
 $pdf->SetFont('Arial', '', 7);
 $totalVentas = 0.00;
-
+$iva = 0.00;
 
 while ($row = mysqli_fetch_assoc($ventas)) {
     $sub_total = $row['total'];
     $totalVentas += $sub_total;
+    $iva += $sub_total * 0.16; // Asumiendo que el IVA es del 16%
 
     $pdf->Cell(32, 5, utf8_decode($row['descripcion']), 1, 0, 'L');
     $pdf->Cell(12, 5, $row['cantidad'], 1, 0, 'C');
@@ -89,8 +90,13 @@ $pdf->SetFont('Arial', 'B', 8);
 $pdf->SetFillColor(200, 220, 255);
 $pdf->Cell(70, 5, "Resumen de Totales", 0, 1, 'C', 1);
 
+
+
+$pdf->Cell(55, 5, 'IVA - Bs.', 0, 0, 'R');
+$pdf->Cell(15, 5, number_format($iva, 2, '.', ','), 0, 1, 'R');
+
 $pdf->Cell(55, 5, 'Monto Total - Bs.', 0, 0, 'R');
-$pdf->Cell(15, 5, number_format($totalVentas, 2, '.', ','), 0, 1, 'R');
+$pdf->Cell(15, 5, number_format($totalVentas + $iva, 2, '.', ','), 0, 1, 'R');
 
 $pdf->Ln(5);
 $pdf->SetFont('Arial', 'I', 7);
